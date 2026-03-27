@@ -55,13 +55,13 @@ export const Plans = ({ navigate }) => {
         </motion.p>
       </div>
 
-      <div className="plans-row" style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
         {PLANS.map((plan) => (
           <TiltCard 
             key={plan.id}
             variants={item}
             whileHover={{ y: -10, scale: plan.popular ? 1.05 : 1.02 }}
-            className="card plan-card" 
+            className="card" 
             style={{ 
               flex: '1', minWidth: '320px', maxWidth: '380px',
               border: plan.popular ? '1px solid var(--accent-primary)' : '1px solid var(--border-light)',

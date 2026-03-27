@@ -11,7 +11,7 @@ export const Hero = ({ navigate }) => {
       transition={{ duration: 0.6 }}
       style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: '120px 0' }}
     >
-      <div className="container hero-layout" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '80px', position: 'relative', zIndex: 10 }}>
+      <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '80px', position: 'relative', zIndex: 10 }}>
         
         {/* Left Side: Typography */}
         <div style={{ flex: '1 1 500px', zIndex: 2 }}>
@@ -37,7 +37,7 @@ export const Hero = ({ navigate }) => {
               Where graphic narratives meet premium stationery. Every month, a new hand-picked adventure drops at your door.
             </p>
             
-            <div className="hero-buttons" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
               <button className="btn btn-primary" onClick={() => navigate('quiz')} style={{ padding: '16px 32px', fontSize: '1.1rem', borderRadius: '8px', border: '2px solid transparent' }}>
                 Build Your Box <ArrowRight size={20} style={{ marginLeft: '8px' }} />
               </button>
@@ -49,7 +49,7 @@ export const Hero = ({ navigate }) => {
         </div>
 
         {/* Right Side: Comic Panel Collage */}
-        <div className="hero-panels" style={{ flex: '1 1 400px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '20px', position: 'relative' }}>
+        <div style={{ flex: '1 1 400px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 220px)', gap: '20px', position: 'relative' }}>
           
           {/* Panel 1 */}
           <motion.div 
@@ -70,7 +70,6 @@ export const Hero = ({ navigate }) => {
           <motion.div 
             initial={{ opacity: 0, y: 50, rotate: 6 }} animate={{ opacity: 1, y: 0, rotate: 3 }} transition={{ duration: 0.8, delay: 0.4 }}
             whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
-            className="hero-panel-tall"
             style={{ 
               gridRow: 'span 2', background: 'linear-gradient(160deg, rgba(20,20,25,0.9) 0%, rgba(255,46,99,0.3) 100%)', 
               border: '3px solid var(--accent-primary)', borderRadius: '12px', padding: '24px',

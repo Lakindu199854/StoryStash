@@ -17,7 +17,7 @@ export const Dashboard = ({ navigate }) => {
     <motion.div 
       initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }}
       variants={containerVariants}
-      className="container layout-sidebar" style={{ padding: '60px 24px', display: 'flex', gap: '48px', flexWrap: 'wrap' }}
+      className="container" style={{ padding: '60px 24px', display: 'flex', gap: '48px', flexWrap: 'wrap' }}
     >
       <div style={{ flex: '1', minWidth: '300px' }}>
         <motion.h2 variants={itemVariants} style={{ fontSize: '3rem', marginBottom: '40px', letterSpacing: '-0.02em' }}>
@@ -87,7 +87,7 @@ export const Dashboard = ({ navigate }) => {
         </div>
       </div>
 
-      <motion.div variants={itemVariants} className="sidebar-column" style={{ width: '380px', flexShrink: 0, maxWidth: '100%' }}>
+      <motion.div variants={itemVariants} style={{ width: '380px', flexShrink: 0, maxWidth: '100%' }}>
         {/* Past Boxes sidebar */}
         <div className="card" style={{ height: '100%', position: 'sticky', top: '100px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
