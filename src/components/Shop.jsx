@@ -35,10 +35,10 @@ export const Shop = ({ navigate }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="container" style={{ padding: '40px 24px', display: 'flex', gap: '48px' }}
+      className="container layout-sidebar" style={{ padding: '40px 24px', display: 'flex', gap: '48px' }}
     >
       {/* Sidebar Filters */}
-      <div style={{ width: '280px', flexShrink: 0 }}>
+      <div className="sidebar-column" style={{ width: '280px', flexShrink: 0 }}>
         <div style={{ position: 'sticky', top: '100px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', opacity: 0.8 }}>
             <Filter size={18} />
