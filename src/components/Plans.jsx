@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Star } from 'lucide-react';
 import { TiltCard } from './TiltCard';
+
 const PLANS = [
   {
     id: 'comics',
@@ -39,38 +40,54 @@ const item = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
 };
 
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+};
+
 export const Plans = ({ navigate }) => {
+  const isMobile = useIsMobile();
+
   return (
     <motion.div 
       initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }}
       variants={container}
-      className="container" style={{ padding: '60px 24px' }}
+      className="container" style={{ padding: isMobile ? '32px 16px' : '60px 24px' }}
     >
-      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-        <motion.h2 variants={item} style={{ fontSize: '3.5rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+      <div style={{ textAlign: 'center', marginBottom: isMobile ? '40px' : '64px' }}>
+        <motion.h2 variants={item} style={{ fontSize: isMobile ? '2.2rem' : '3.5rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>
           Choose your <span className="text-gradient">journey</span>
         </motion.h2>
-        <motion.p variants={item} style={{ color: 'var(--text-secondary)', fontSize: '1.25rem' }}>
+        <motion.p variants={item} style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1.05rem' : '1.25rem' }}>
           We've tailored these options perfectly based on your creative persona.
         </motion.p>
       </div>
 
-      <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: isMobile ? '24px' : '32px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', flexDirection: isMobile ? 'column' : 'row' }}>
         {PLANS.map((plan) => (
           <TiltCard 
             key={plan.id}
             variants={item}
-            whileHover={{ y: -10, scale: plan.popular ? 1.05 : 1.02 }}
+            whileHover={isMobile ? {} : { y: -10, scale: plan.popular ? 1.05 : 1.02 }}
             className="card" 
             style={{ 
-              flex: '1', minWidth: '320px', maxWidth: '380px',
+              flex: isMobile ? 'none' : '1', 
+              width: isMobile ? '100%' : 'auto',
+              minWidth: isMobile ? 'auto' : '280px', 
+              maxWidth: isMobile ? '100%' : '380px',
               border: plan.popular ? '1px solid var(--accent-primary)' : '1px solid var(--border-light)',
               boxShadow: plan.popular ? 'var(--shadow-glow)' : 'var(--shadow-subtle)',
               background: plan.popular ? 'linear-gradient(180deg, rgba(255,82,119,0.05) 0%, rgba(15,15,20,0.8) 100%)' : 'var(--bg-surface)',
               position: 'relative',
               display: 'flex', flexDirection: 'column',
-              padding: '40px 32px',
-              transform: plan.popular ? 'scale(1.05)' : 'scale(1)',
+              padding: isMobile ? '32px 24px' : '40px 32px',
+              transform: (plan.popular && !isMobile) ? 'scale(1.05)' : 'scale(1)',
               zIndex: plan.popular ? 2 : 1
             }}
           >
@@ -88,7 +105,7 @@ export const Plans = ({ navigate }) => {
             
             <h3 style={{ fontSize: '1.5rem', marginBottom: '12px', color: 'var(--text-secondary)' }}>{plan.name}</h3>
             <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '32px' }}>
-              <span style={{ fontSize: '3.5rem', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: 1 }}>{plan.price}</span>
+              <span style={{ fontSize: isMobile ? '2.8rem' : '3.5rem', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: 1 }}>{plan.price}</span>
               <span style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', marginLeft: '4px' }}>{plan.period}</span>
             </div>
             

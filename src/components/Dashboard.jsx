@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PauseCircle, Settings, Package, History } from 'lucide-react';
 
@@ -12,36 +12,50 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
 };
 
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+};
+
 export const Dashboard = ({ navigate }) => {
+  const isMobile = useIsMobile();
+
   return (
     <motion.div 
       initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }}
       variants={containerVariants}
-      className="container" style={{ padding: '60px 24px', display: 'flex', gap: '48px', flexWrap: 'wrap' }}
+      className="container" style={{ padding: isMobile ? '32px 16px' : '60px 24px', display: 'flex', gap: isMobile ? '32px' : '48px', flexWrap: 'wrap' }}
     >
-      <div style={{ flex: '1', minWidth: '300px' }}>
-        <motion.h2 variants={itemVariants} style={{ fontSize: '3rem', marginBottom: '40px', letterSpacing: '-0.02em' }}>
+      <div style={{ flex: '1', minWidth: isMobile ? '100%' : '300px' }}>
+        <motion.h2 variants={itemVariants} style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: isMobile ? '24px' : '40px', letterSpacing: '-0.02em' }}>
           Welcome back, <span className="text-gradient">Reader.</span>
         </motion.h2>
         
         {/* Active Subscription context */}
         <motion.div variants={itemVariants} className="card" style={{ 
-          marginBottom: '40px', 
+          marginBottom: isMobile ? '24px' : '40px', 
           borderLeft: '4px solid var(--accent-primary)',
           background: 'linear-gradient(135deg, rgba(255,82,119,0.05) 0%, rgba(15,15,20,0.8) 100%)',
-          boxShadow: 'var(--shadow-glow)'
+          boxShadow: 'var(--shadow-glow)',
+          padding: isMobile ? '20px' : '32px'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '12px' }}>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-secondary)', boxShadow: '0 0 10px var(--accent-secondary)' }}></span>
                 Active Subscription
               </div>
-              <h3 style={{ fontSize: '2rem', marginBottom: '12px', letterSpacing: '-0.01em' }}>The Dual Experience</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Delivering exclusive Comics & Premium Stationery on the 15th.</p>
+              <h3 style={{ fontSize: isMobile ? '1.5rem' : '2rem', marginBottom: '12px', letterSpacing: '-0.01em' }}>The Dual Experience</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '0.95rem' : '1.1rem' }}>Delivering exclusive Comics & Premium Stationery on the 15th.</p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-0.03em' }}>$45.00<span style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', fontWeight: '500' }}>/mo</span></div>
+            <div style={{ textAlign: isMobile ? 'left' : 'right' }}>
+              <div style={{ fontSize: isMobile ? '2rem' : '2.5rem', fontWeight: '800', letterSpacing: '-0.03em' }}>$45.00<span style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', fontWeight: '500' }}>/mo</span></div>
               <motion.div whileHover={{ scale: 1.05 }} style={{ marginTop: '16px', cursor: 'pointer', color: 'var(--accent-secondary)', fontWeight: '500' }}>
                 Manage Plan
               </motion.div>
@@ -50,7 +64,7 @@ export const Dashboard = ({ navigate }) => {
 
           {/* Add to Next Box Highlight */}
           <div style={{ 
-            marginTop: '40px', padding: '24px', 
+            marginTop: '32px', padding: isMobile ? '16px' : '24px', 
             background: 'var(--bg-base)', borderRadius: 'var(--radius-md)',
             border: '1px solid var(--border-light)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px'
@@ -66,8 +80,8 @@ export const Dashboard = ({ navigate }) => {
         </motion.div>
 
         {/* Action Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
-          <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="card" style={{ textAlign: 'center', padding: '40px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+          <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="card" style={{ textAlign: 'center', padding: isMobile ? '28px 20px' : '40px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ marginBottom: '24px', background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '50%', color: 'var(--text-primary)' }}>
               <PauseCircle size={32} strokeWidth={1.5} />
             </div>
@@ -76,7 +90,7 @@ export const Dashboard = ({ navigate }) => {
             <button className="btn btn-secondary" style={{ width: '100%' }}>Skip August</button>
           </motion.div>
           
-          <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="card" style={{ textAlign: 'center', padding: '40px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <motion.div variants={itemVariants} whileHover={{ y: -5 }} className="card" style={{ textAlign: 'center', padding: isMobile ? '28px 20px' : '40px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ marginBottom: '24px', background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '50%', color: 'var(--text-primary)' }}>
               <Settings size={32} strokeWidth={1.5} />
             </div>
@@ -87,9 +101,9 @@ export const Dashboard = ({ navigate }) => {
         </div>
       </div>
 
-      <motion.div variants={itemVariants} style={{ width: '380px', flexShrink: 0, maxWidth: '100%' }}>
+      <motion.div variants={itemVariants} style={{ width: isMobile ? '100%' : '380px', flexShrink: 0, maxWidth: '100%' }}>
         {/* Past Boxes sidebar */}
-        <div className="card" style={{ height: '100%', position: 'sticky', top: '100px' }}>
+        <div className="card" style={{ height: isMobile ? 'auto' : '100%', position: isMobile ? 'relative' : 'sticky', top: '100px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
             <History size={24} className="text-gradient" />
             <h3 style={{ margin: 0, fontSize: '1.5rem' }}>History</h3>

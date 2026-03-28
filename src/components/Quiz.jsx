@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BookOpen, PenTool, Sparkles, Rocket, Flame, Zap, 
@@ -52,10 +52,22 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
 };
 
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, [breakpoint]);
+  return isMobile;
+};
+
 export const Quiz = ({ navigate }) => {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isBuilding, setIsBuilding] = useState(false);
+  const isMobile = useIsMobile();
 
   const currentStep = QUIZ_STEPS[stepIndex];
 
@@ -95,7 +107,7 @@ export const Quiz = ({ navigate }) => {
     return (
       <motion.div 
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        className="container" style={{ padding: '120px 24px', textAlign: 'center', maxWidth: '600px' }}
+        className="container" style={{ padding: isMobile ? '80px 16px' : '120px 24px', textAlign: 'center', maxWidth: '600px' }}
       >
         <motion.div 
           animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -106,8 +118,8 @@ export const Quiz = ({ navigate }) => {
           <Sparkles className="text-gradient" size={32} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', stroke: 'var(--accent-primary)' }} />
         </motion.div>
         
-        <h2 style={{ fontSize: '3rem', marginBottom: '16px' }}>Curating Your Box<span className="text-gradient">...</span></h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>We are matching your preferences with our premium collection of stories and stationery.</p>
+        <h2 style={{ fontSize: isMobile ? '2rem' : '3rem', marginBottom: '16px' }}>Curating Your Box<span className="text-gradient">...</span></h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '1rem' : '1.2rem' }}>We are matching your preferences with our premium collection of stories and stationery.</p>
       </motion.div>
     );
   }
@@ -115,10 +127,10 @@ export const Quiz = ({ navigate }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="container" style={{ padding: '40px 24px', maxWidth: '800px' }}
+      className="container" style={{ padding: isMobile ? '24px 16px' : '40px 24px', maxWidth: '800px' }}
     >
       {/* Progress Bar */}
-      <div style={{ marginBottom: '60px', display: 'flex', gap: '8px' }}>
+      <div style={{ marginBottom: isMobile ? '36px' : '60px', display: 'flex', gap: '8px' }}>
         {QUIZ_STEPS.map((step, idx) => (
           <div key={step.id} style={{ 
             height: '4px', flex: 1, borderRadius: '4px',
@@ -137,14 +149,14 @@ export const Quiz = ({ navigate }) => {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.4 }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>{currentStep.title}</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem' }}>{currentStep.subtitle}</p>
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? '28px' : '48px' }}>
+            <h2 style={{ fontSize: isMobile ? '1.6rem' : '2.5rem', marginBottom: '12px', letterSpacing: '-0.02em' }}>{currentStep.title}</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '0.95rem' : '1.15rem' }}>{currentStep.subtitle}</p>
           </div>
 
           <motion.div 
             variants={containerVariants} initial="hidden" animate="show"
-            className="product-grid" style={{ gridTemplateColumns: currentStep.multiSelect ? 'repeat(auto-fill, minmax(200px, 1fr))' : '1fr' }}
+            className="product-grid" style={{ gridTemplateColumns: currentStep.multiSelect ? `repeat(auto-fill, minmax(${isMobile ? '140px' : '200px'}, 1fr))` : '1fr' }}
           >
             {currentStep.options.map((option) => {
               const isSelected = currentStep.multiSelect 
@@ -154,7 +166,7 @@ export const Quiz = ({ navigate }) => {
               return (
                 <motion.div 
                   variants={itemVariants}
-                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileHover={isMobile ? {} : { scale: 1.02, y: -5 }}
                   whileTap={{ scale: 0.98 }}
                   key={option.id}
                   className="card"
@@ -163,20 +175,20 @@ export const Quiz = ({ navigate }) => {
                     cursor: 'pointer',
                     border: isSelected ? '1px solid var(--accent-primary)' : '1px solid var(--border-light)',
                     background: isSelected ? 'rgba(255,82,119,0.05)' : 'var(--bg-surface)',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '36px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: isMobile ? '12px' : '20px', padding: isMobile ? '24px 16px' : '36px',
                     boxShadow: isSelected ? 'var(--shadow-glow)' : 'var(--shadow-subtle)',
                     position: 'relative'
                   }}
                 >
                   {isSelected && (
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} style={{ position: 'absolute', top: 16, right: 16, color: 'var(--accent-primary)' }}>
-                      <Check size={20} />
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} style={{ position: 'absolute', top: 12, right: 12, color: 'var(--accent-primary)' }}>
+                      <Check size={18} />
                     </motion.div>
                   )}
                   <div style={{ color: isSelected ? 'var(--accent-primary)' : 'var(--text-primary)', transition: 'color 0.3s' }}>
                     {option.icon}
                   </div>
-                  <div style={{ fontSize: '1.15rem', fontWeight: '500', textAlign: 'center' }}>{option.label}</div>
+                  <div style={{ fontSize: isMobile ? '0.95rem' : '1.15rem', fontWeight: '500', textAlign: 'center' }}>{option.label}</div>
                 </motion.div>
               );
             })}
@@ -184,7 +196,7 @@ export const Quiz = ({ navigate }) => {
         </motion.div>
       </AnimatePresence>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '60px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: isMobile ? '32px' : '60px' }}>
         <button 
           className="btn btn-secondary" 
           onClick={() => setStepIndex(Math.max(0, stepIndex - 1))}

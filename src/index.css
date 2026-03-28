@@ -43,6 +43,12 @@
   cursor: none !important; /* Forces custom cursor usage everywhere */
 }
 
+@media (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-base);
@@ -119,6 +125,12 @@ a {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 32px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
 }
 
 .flex { display: flex; }
@@ -224,6 +236,12 @@ a {
   background: linear-gradient(135deg, rgba(255,82,119,0.3), rgba(255,255,255,0) 50%, rgba(157,78,221,0.2));
 }
 
+@media (pointer: coarse) {
+  .card:hover {
+    transform: none;
+  }
+}
+
 /* Navigation */
 .navbar {
   position: fixed;
@@ -294,11 +312,93 @@ a {
   font-weight: 600;
 }
 
+/* Mobile Hamburger Button */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  padding: 4px;
+  line-height: 1;
+  z-index: 200;
+}
+
+/* Mobile Nav Overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background: rgba(8, 8, 12, 0.98);
+  backdrop-filter: blur(24px);
+  z-index: 150;
+  padding: 80px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 1px solid var(--border-light);
+}
+
+.mobile-nav-overlay .nav-link {
+  font-size: 1.2rem;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.mobile-nav-overlay .nav-link::after {
+  display: none;
+}
+
+.mobile-nav-overlay .nav-link.active {
+  color: var(--accent-primary);
+}
+
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 140;
+}
+
+.mobile-nav-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  padding: 4px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+  }
+  .navbar {
+    padding: 14px 0;
+  }
+}
+
 /* Product Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 32px;
+}
+
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 
 /* Animations */
