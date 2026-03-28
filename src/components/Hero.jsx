@@ -170,7 +170,7 @@ export const Hero = ({ navigate }) => {
       </div>
       
       {/* Infinite Kinetic Marquee Strip */}
-      <div style={{ position: 'absolute', bottom: isMobile ? '3%' : '10%', left: '-10%', width: '120%', transform: 'rotate(-3deg)', background: 'var(--accent-gold)', padding: 'clamp(8px, 2vw, 16px) 0', zIndex: 0, overflow: 'hidden', borderTop: '4px solid #000', borderBottom: '4px solid #000', boxShadow: '0 0 30px rgba(255, 215, 0, 0.4)' }}>
+      <div style={{ position: 'absolute', bottom: 0, left: '-10%', width: '120%', transform: 'rotate(-3deg)', background: 'var(--accent-gold)', padding: 'clamp(8px, 2vw, 16px) 0', zIndex: 0, overflow: 'hidden', borderTop: '4px solid #000', borderBottom: '4px solid #000', boxShadow: '0 0 30px rgba(255, 215, 0, 0.4)' }}>
         <motion.div 
           animate={{ x: [0, -1030] }} transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
           style={{ display: 'flex', whiteSpace: 'nowrap', color: '#000', fontWeight: 900, fontSize: 'clamp(1rem, 2.5vw, 1.6rem)', textTransform: 'uppercase', letterSpacing: '6px' }}
