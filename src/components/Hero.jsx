@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Target } from 'lucide-react';
 
-const useIsMobile = (breakpoint = 600) => {
+const useIsMobile = (breakpoint = 768) => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= breakpoint);
@@ -22,7 +22,7 @@ export const Hero = ({ navigate }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
-      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: isMobile ? '100px 0 120px' : '120px 0 80px' }}
+      style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', padding: isMobile ? '100px 0 160px' : '120px 0 140px' }}
     >
       <div className="container" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: isMobile ? '40px' : 'clamp(32px, 6vw, 80px)', position: 'relative', zIndex: 10 }}>
         
